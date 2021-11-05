@@ -44,7 +44,9 @@ const reducer = (state = initialState, action) => {
     case ADD_SMURF:
       return {
         ...state,
-        smurfs: [action.payload, ...state.smurfs],
+
+        // In this case, the UX is better if the user can see their newly created smurf closer to the form. So I'm placing the order of smurfs as [previous smurfs, new smurf].
+        smurfs: [...state.smurfs, action.payload],
         isLoading: false,
         errorMessage: "",
       };
