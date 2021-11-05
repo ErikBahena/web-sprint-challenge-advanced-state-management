@@ -10,11 +10,23 @@ export const ADD_SMURF = "ADD_SMURF";
 export const fetchSmurfs = () => {
   return (dispatch) => {
     dispatch(fetchStart());
+
+    axios
+      .get("http://localhost:3333/smurfs")
+      .then((res) => {
+        const smurfs = res.data;
+        dispatch(fetchSuccess(smurfs));
+      })
+      .catch((err) => {
+        const errorMessage = `Something went wrong trying to get the smurfs data ${err.message}`;
+        dispatch(fetchError(errorMessage));
+      });
   };
 };
 //Task List:
 
 //2. Add a standard action that allows us to add new smurf (including the name, nickname, position, summary)
+//
 export const addSmurf = (newSmurf) => {
   return {
     type: ADD_SMURF,
@@ -28,10 +40,10 @@ export const fetchStart = () => {
   };
 };
 
-export const fetchSuccess = (newPerson) => {
+export const fetchSuccess = (smurfs) => {
   return {
     type: FETCH_SUCCESS,
-    payload: newPerson,
+    payload: smurfs,
   };
 };
 
